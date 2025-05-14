@@ -55,8 +55,7 @@ section {
 }
 
 .profile-img {
-    max-width: 200px;
-    border-radius: 50%;
+    max-width: 2000px;
     display: block;
     margin: 20px auto;
 }
