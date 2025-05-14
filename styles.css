@@ -62,6 +62,12 @@ section {
     margin: 20px auto;
 }
 
+.second-img {
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
+
 h2 {
     color: #0A7041;
     border-bottom: 2px solid #CFC493;
