@@ -62,16 +62,11 @@ section {
     margin: 20px auto;
 }
 
-.welcome-text-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
 .second-img {
-    max-width: 100%;
+    max-width: 200px;
     height: auto;
-    display: block;
+    float: left;
+    margin: 0 15px 10px 0;
 }
 
 h2 {
