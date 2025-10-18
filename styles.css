@@ -52,7 +52,7 @@ nav ul li a:hover {
 }
 
 section {
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .profile-img {
@@ -72,7 +72,7 @@ section {
 h2 {
     color: #0A7041;
     border-bottom: 2px solid #CFC493;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
 }
 
 footer {
