@@ -11,6 +11,10 @@ body {
     padding: 10px;
 }
 
+.container + .container {
+  margin-top: -20px;
+}
+
 header {
     background-color: #0A7041; /* USF Green */
     color: white;
