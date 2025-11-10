@@ -73,6 +73,15 @@ section {
     margin: 0 15px 10px 0;
 }
 
+}
+
+.third-img {
+    max-width: 300px;
+    height: auto;
+    float: right;
+    margin: 0 15px 10px 0;
+}
+
 h2 {
     color: #0A7041;
     border-bottom: 2px solid #CFC493;
