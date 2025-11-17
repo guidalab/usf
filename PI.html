@@ -1,0 +1,140 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homepage of Dr. Wayne Guida, Chemist at the University of South Florida">
+    <title>Dr. Wayne Guida | Chemist at USF</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Guida Laboratory</h1>
+            <p>Chemistry, University of South Florida</p>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="members.html">Lab Members</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <main>
+           <div class="container">
+            <section id="home">
+            <h2>Welcome</h2>
+                <p><img src="WGuida Photo.jpg" alt="Dr. Wayne Guida" class="second-img"> <p>Dr. Wayne Guida is a globally recognized leader in computational chemistry and former Chair of the Chemistry Department at the University of South Florida. Dr. Guida’s career spans academia and industry, including his tenure as the first CEO of Schrödinger, Inc., Executive Director at Novartis Institute for Biomedical Research, and a Professor in the Drug Discovery Program at the H. Lee Moffitt Cancer Center and Research Institute. His research, which has garnered over 16,000 citations, focuses on computer-aided drug design, targeting proteins critical to the treatment of cancer, autoimmune disease, cardiovascular disease, and infectious disease. Dr. Guida collaborates with other labs on innovative therapies, holding 13 U.S. patents and authoring (or co-authoring) over 100 publications.</p>
+               <P><I>Dr. Wayne Guida has been consistently recognized on the Stanford World Top 2% Scientists List annually since 2021, reflecting his status among the top 2% of global scientists based on citation impact.</I></P> </div>
+        </section>
+        <section id="research">
+            <div class="container">
+                <h2>Research</h2>
+               <h3>STING Pathway Modulation</h3>
+                <p style="text-align: justify;"><i><b>Our STING research focuses on developing novel small-molecule modulators to fine-tune STING activity, offering potential therapeutic avenues for these conditions.</b></i></p>
+                <img src="STING_Cover.jpeg" alt="ACS Central Science" class="second-img">In our laboratory, we are at the forefront of investigating the stimulator of interferon genes (STING) pathway, a critical component of innate immunity that responds to cytosolic DNA threats, such as those from viral infections or cellular damage. Dysregulation of STING can lead to excessive inflammation, contributing to autoimmune diseases, cytokine storms (e.g., in COVID-19), and other inflammatory disorders.
+                <p>A landmark achievement is the discovery of clonixeril (CXL), a non-nucleotide compound identified as the most potent human STING (hSTING) modulator to date. Published in ACS Central Science (2025), our work reveals CXL's dual-mode interaction: it acts as a weak agonist at concentrations above 1 nM but exhibits unprecedented antagonistic effects at sub-femtomolar levels (down to 100 attomolar, or 10⁻¹⁸ M). This inverse dose-response behavior, where lower doses yield stronger inhibition, challenges conventional pharmacology and highlights CXL's unique mechanism.
+                </p><img src="Structures.JPG" alt="ACS Central Science" class="second-img"><p>We employed advanced computational approaches, including molecular dynamics (MD) simulations of equilibrated hSTING models (agonist and antagonist conformations), to screen compound libraries like the NCI Diversity Set. Virtual docking and pharmacophore-based screening pinpointed CXL, which we validated through a multi-tiered experimental pipeline:
+               </p>
+                <p><b>Cellular Assays:</b> In THP-1 monocytic cells using an IRF3 luciferase reporter, CXL potently inhibited STING-mediated interferon production when competing with agonists like 2',3'-cGAMP or diABZI3. In HEK293 cells, it suppressed 2',3'-cGAMP-induced STING phosphorylation (at Ser366) and IFN-β expression, reducing levels by over 50% even at 1 femtomolar.
+                </p><p><b>Biophysical Characterization:</b> Techniques such as surface plasmon resonance (SPR), microscale thermophoresis (MST), dynamic light scattering (DLS), isothermal titration calorimetry (ITC), and fluorescence microscopy confirmed CXL's binding and its disruption of STING oligomerization. MST revealed an EC₅₀ below 1 femtomolar in competition assays, while DLS showed CXL alters oligomer formation in the presence of 2',3'-cGAMP.
+               </p>
+                <p>Structure-activity relationship (SAR) studies on CXL analogs, including clonixin (its carboxylic acid precursor) and mefenamic acid derivatives, underscored the specificity of CXL's ester moiety for ultra-potent activity. Unlike known antagonists, CXL's attomolar potency suggests it may stabilize inhibitory conformations or interfere with higher-order STING assemblies.
+                This breakthrough not only expands our understanding of STING regulation but also paves the way for ultra-low-dose therapeutics to mitigate hyperactive immune responses. Ongoing efforts in our lab include optimizing CXL derivatives for clinical translation and exploring their efficacy in disease models.
+                <b>For more details, see our publication:</b> <a href="https://pubs.acs.org/doi/10.1021/acscentsci.4c01982">Sparks et al., ACS Cent. Sci. 2025, 11, 994–1008.</a>
+                </p><p></p></p>
+                 <h3>NAMPT Activation</h3>
+                    <p><i><b>By targeting NAMPT, we aim to restore metabolic balance and enhance protective signaling for therapeutic benefits in diabetic hearts.</b></i></p>
+                <p>Our laboratory is committed to advancing research on nicotinamide phosphoribosyltransferase (NAMPT), a key enzyme in the NAD+ salvage pathway that is often dysregulated in metabolic disorders like diabetes. This dysregulation contributes to elevated NADH/NAD+ ratios, promoting cardiac arrhythmias, ischemia-reperfusion (I/R) injury, and overall cardiovascular dysfunction in diabetic conditions.</p>
+                <p><img src="NAMPT2.JPG" alt="ACS Central Science" class="second-img">A key accomplishment is our demonstration of P7C3 (1-(3,6-Dibromo-carbazol-9-yl)-3-phenylamino-propan-2-ol) as a potent NAMPT activator with cardioprotective effects in diabetic models. Published in The Journal of Pharmacology and Experimental Therapeutics (2022, Volume 382, Issue 2, Pages 233–245), our study utilized male leptin receptor-deficient (db/db) mice treated daily with P7C3 (10 mg/kg i.p.) for four weeks, revealing its ability to rescue metabolic imbalances and mitigate cardiac injury.
+                Computational docking confirmed P7C3's enhancement of NAMPT dimerization, validated through in vitro and in vivo assays. Key findings include:</p>
+
+                <p><b>Enhanced Cardiac Function:</b> P7C3 improved ECG parameters (e.g., reduced QTc and JT intervals, decreased ST elevation) and echocardiography metrics (increased ejection fraction and fractional shortening), demonstrating anti-arrhythmic properties.
+                </p><p><b>Metabolic Rescue:</b> Treatment normalized elevated NADH/NAD+ ratios in diabetic hearts, measured via enzymatic assays, while significantly boosting NAMPT and SIRT1 activities (assessed colorimetrically and fluorometrically).
+                </p><p><b>Glycemic Control:</b> Four-week P7C3 administration lowered fasting blood glucose and improved glucose tolerance (via intraperitoneal GTT), reducing hyperglycemia in db/db mice.
+                </p><p><b>Reduced Infarct Size in I/R Injury:</b> In ex vivo Langendorff-perfused hearts and in vivo myocardial infarction models, P7C3 decreased infarct size (TTC staining), troponin I, and LDH release. These effects were PI3K-dependent, as co-treatment with LY294002 abolished benefits.
+                </p><p><b>Protective Signaling:</b> Upregulation of p-AKT, p-eNOS, and Beclin-1 expression (via Western blot) linked NAMPT activation to downstream cardioprotective pathways.
+                <style>
+    .video-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    video {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #ccc; /* optional styling */
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-container">
+    <video controls>
+      <source src="P7C3.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+                    <b><i>Video:</i></b> Simulation showing NAMPT with compound P7C3 within the tunnel of the active site.  <br>Credit: Katarzyna Mizgalska
+                    <p>This research highlights P7C3's specificity and efficacy, positioning it as a promising agent for diabetic cardiomyopathy with anti-ischemic and metabolic benefits. Current efforts focus on optimizing P7C3 derivatives and evaluating their translational potential in broader disease models. <b>For more details, see:</b> <a href="https://pubmed.ncbi.nlm.nih.gov/35680376/">Tur et al., JPET 2022, DOI: 10.1124/jpet.122.001122.</a></p>
+                   </section>
+                <div class="container">
+                <section id="members">  
+                <h2>Laboratory Members</h2>    
+                <img src="Guida Group 2022_edited.jpg" alt="Wayne Guida Lab Members" class="profile-img">
+                    <p><b>The Guida Lab. From Left:</b> Dr. Kenyon Daniel, Dr. Will Lawless (Back), Dr. Christine Gambino (Front), Dr. Wayne Guida, Dr. Guy Dahoff, Dr. Anna Kharitonova, Dr. Wesley Brooks.</p>
+                <p><a href="members.html">See all of the current lab members here.</a></p>
+                </section>
+    </main>
+    <footer id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:wguida@usf.edu">wguida@usf.edu</a></p>
+            <p>Office: Department of Chemistry, USF, Tampa, FL 33620</p>
+            <p><a href="https://www.linkedin.com/in/wayne-guida-83a9209/" target="https://www.linkedin.com/in/wayne-guida-83a9209/">LinkedIn</a></p>
+        </div>
+    </footer>
+</body>
+</html>
